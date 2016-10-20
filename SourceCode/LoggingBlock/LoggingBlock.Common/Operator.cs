@@ -89,9 +89,6 @@ namespace LoggingBlock.Common
                     errors.ForEach(p => Console.WriteLine($"{p.Item1.ToString().PadLeft(2, '0')}）类型：{p.Item2}；错误：{p.Item3}{Environment.NewLine}"));
                 }
             }
-
-            Console.WriteLine("主函数执行完成，按任意键退出……");
-            Console.ReadKey();
         }
     }
 }
