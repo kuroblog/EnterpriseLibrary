@@ -81,6 +81,7 @@ namespace LoggingBlock.Basic
             //写XML，这里有问题，生成的xml文件格式不对，待解决
             //Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "XmlLog");
 
+            //文本日志和滚动的文本日志
             Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "FlatLog");
             Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "RollingLog");
 
