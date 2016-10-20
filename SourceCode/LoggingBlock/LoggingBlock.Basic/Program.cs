@@ -17,6 +17,7 @@ namespace LoggingBlock.Basic
         {
             var log = new LogEntry
             {
+                TimeStamp = DateTime.Now,
                 EventId = Operator.GenerateNumber(),
                 Priority = Operator.GenerateNumber(maxValue: 10),
                 Title = Operator.GenerateChars(),
@@ -37,6 +38,7 @@ namespace LoggingBlock.Basic
         /// 注意：
         /// 1）配置文件中所有的PublicKeyToken=null必须删除，原因未知，有待调查
         /// 2）Logger.Writer.Write方法的category参数必须和配置文件中categorySources节点里的Name的值一致
+        /// 3）支持相对目录，设置配置文件中listeners节点里的fileName的值为相对路径，如：logs\debug.log
         /// ----------------------------------------------------------------------------------------------
         /// 配置为系统日志：
         /// 1）Win7及以后的系统需要管理员权限才能写日志到系统日志，相关设定在工程属性的安全性内设置
@@ -62,7 +64,7 @@ namespace LoggingBlock.Basic
             var logWriter = logFactory.Create();
             Logger.SetLogWriter(logWriter);
 
-            ////设置exception
+            //设置exception
             //var exceptionFactory = new ExceptionPolicyFactory(source);
             //var exceptionManager = exceptionFactory.CreateManager();
             //ExceptionPolicy.SetExceptionManager(exceptionManager);
@@ -71,10 +73,16 @@ namespace LoggingBlock.Basic
             var log = GenerateLog();
 
             //写系统日志
-            Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "EventLog");
+            //Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "EventLog");
 
             //写db日志
-            Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "DbLog");
+            //Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "DbLog");
+
+            //写XML，这里有问题，生成的xml文件格式不对，待解决
+            //Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "XmlLog");
+
+            Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "FlatLog");
+            Operator.ProcessLog((s) => Logger.Writer.Write(log, s), "RollingLog");
 
             Console.WriteLine("主函数执行完成，按任意键退出……");
             Console.ReadKey();

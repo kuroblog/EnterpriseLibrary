@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documents\CreateLoggingDatabase.sql = Documents\CreateLoggingDatabase.sql
 		Documents\CreateLoggingDatabaseObjects.sql = Documents\CreateLoggingDatabaseObjects.sql
 		Documents\CreateLoggingDb.cmd = Documents\CreateLoggingDb.cmd
+		Documents\LoggingSettings.png = Documents\LoggingSettings.png
 		Documents\MicrosoftEnterpriseLibrary.txt = Documents\MicrosoftEnterpriseLibrary.txt
 		Documents\Readme.txt = Documents\Readme.txt
 	EndProjectSection
