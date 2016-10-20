@@ -1,43 +1,27 @@
 ﻿
 namespace LoggingBlock.Basic
 {
+    using Common;
     using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
+    using Microsoft.Practices.EnterpriseLibrary.Data;
     using Microsoft.Practices.EnterpriseLibrary.Logging;
-    using System;
-    using System.Collections.Generic;
 
     class Program
     {
-        private static void DoTest(Action action)
+        private static LogEntry GenerateLog()
         {
-            try
+            var log = new LogEntry
             {
-                var configSource = ConfigurationSourceFactory.Create();
-                var logFactory = new LogWriterFactory(configSource);
-                Logger.SetLogWriter(logFactory.Create());
+                EventId = Operator.GenerateNumber(),
+                Priority = Operator.GenerateNumber(maxValue: 10),
+                Title = Operator.GenerateChars(),
+                Message = Operator.GenerateChars(10)
+            };
 
-                action?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                var errors = new List<Tuple<int, string, string>>();
-                var tmp = ex;
-                var index = 0;
-                do
-                {
-                    errors.Insert(0, Tuple.Create(++index, tmp.GetType().Name, tmp.Message.Replace(Environment.NewLine, string.Empty)));
-                    tmp = ex.InnerException == null ? null : ex.InnerException;
-                } while (tmp != null);
+            log.Categories.Add(Operator.GenerateChars());
+            log.Categories.Add(Operator.GenerateChars());
 
-                if (errors.Count > 0)
-                {
-                    Console.WriteLine("执行完成，发生以下错误：");
-                    errors.ForEach(p => Console.WriteLine($"{p.Item1.ToString().PadLeft(2, '0')}）类型：{p.Item2}；错误：{p.Item3}"));
-                }
-            }
-
-            Console.WriteLine("主函数执行完成，按任意键退出……");
-            Console.ReadKey();
+            return log;
         }
 
         /// <summary>
@@ -46,25 +30,51 @@ namespace LoggingBlock.Basic
         /// <remarks>
         /// Win7及以后的系统需要管理员权限才能写日志到系统日志，相关设定在工程属性的安全性内设置
         /// </remarks>
-        private static void WriteToSystemEvennt()
+        private static void WriteToEventLog()
         {
-            var log = new LogEntry
-            {
-                EventId = 1,
-                Priority = 1,
-                Title = "标题",
-                Message = "测试消息"
-            };
-
-            log.Categories.Add("测试");
-            log.Categories.Add("调试");
-
-            Logger.Writer.Write(log, "General");
+            //这里的第二个参数的值需要和配置文件中Logging Settings中Categories中Name的值一致
+            Logger.Writer.Write(GenerateLog(), "EventLog");
         }
 
+        ///// <summary>
+        ///// 配置为数据库，写日志到数据库
+        ///// </summary>
+        ///// <remarks>
+        ///// 1）脚本文件在解决方案的Documents目录下
+        ///// 2）数据库默认名称为Logging
+        ///// 3）可以运行于localdb
+        ///// 4）对于不同的数据库需要修改配置文件的连接字符串
+        ///// </remarks>
+        //private static void WriteToDbLog(string categoryName)
+        //{
+        //    //这里的第二个参数的值需要和配置文件中Logging Settings中Categories中Name的值一致
+        //    Logger.Writer.Write(GenerateLog(), );
+        //}
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <remarks>
+        /// 
+        /// </remarks>
         static void Main(string[] args)
         {
-            DoTest(WriteToSystemEvennt);
+            var source = ConfigurationSourceFactory.Create();
+
+            var dbFactory = new DatabaseProviderFactory(source);
+            DatabaseFactory.SetDatabaseProviderFactory(dbFactory);
+
+            var logFactory = new LogWriterFactory(source);
+            var logWriter = logFactory.Create();
+
+            Logger.SetLogWriter(logWriter);
+
+            //Operator.ProcessLog(WriteToEventLog);
+
+
+            Operator.ProcessLog((s) => Logger.Writer.Write(GenerateLog(), s), "DbLog");
         }
     }
 }

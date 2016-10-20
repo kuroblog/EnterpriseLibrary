@@ -11,7 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documents\CreateLoggingDatabaseObjects.sql = Documents\CreateLoggingDatabaseObjects.sql
 		Documents\CreateLoggingDb.cmd = Documents\CreateLoggingDb.cmd
 		Documents\MicrosoftEnterpriseLibrary.txt = Documents\MicrosoftEnterpriseLibrary.txt
+		Documents\Readme.txt = Documents\Readme.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingBlock.Common", "LoggingBlock.Common\LoggingBlock.Common.csproj", "{CA8E179E-A06E-4138-B1BF-9EA8D339A8F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingBlock.EventLog", "LoggingBlock.EventLog\LoggingBlock.EventLog.csproj", "{AC77584F-5568-4CE7-898A-D3585F5377D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,11 +28,19 @@ Global
 		{BDC7FFD5-F5E6-4524-BBA2-1469325E18A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDC7FFD5-F5E6-4524-BBA2-1469325E18A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDC7FFD5-F5E6-4524-BBA2-1469325E18A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA8E179E-A06E-4138-B1BF-9EA8D339A8F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA8E179E-A06E-4138-B1BF-9EA8D339A8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA8E179E-A06E-4138-B1BF-9EA8D339A8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA8E179E-A06E-4138-B1BF-9EA8D339A8F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC77584F-5568-4CE7-898A-D3585F5377D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC77584F-5568-4CE7-898A-D3585F5377D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC77584F-5568-4CE7-898A-D3585F5377D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC77584F-5568-4CE7-898A-D3585F5377D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.Database.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal
