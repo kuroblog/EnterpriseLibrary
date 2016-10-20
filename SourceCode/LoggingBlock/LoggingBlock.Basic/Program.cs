@@ -1,6 +1,7 @@
 ﻿
 namespace LoggingBlock.Basic
 {
+    using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
     using Microsoft.Practices.EnterpriseLibrary.Logging;
     using System;
     using System.Collections.Generic;
@@ -11,8 +12,6 @@ namespace LoggingBlock.Basic
         {
             DoTest(() =>
             {
-                var i = 0;
-
                 var log = new LogEntry
                 {
                     EventId = 1,
@@ -32,6 +31,10 @@ namespace LoggingBlock.Basic
         {
             try
             {
+                var configSource = ConfigurationSourceFactory.Create();
+                var logFactory = new LogWriterFactory(configSource);
+                Logger.SetLogWriter(logFactory.Create());
+
                 action?.Invoke();
             }
             catch (Exception ex)
