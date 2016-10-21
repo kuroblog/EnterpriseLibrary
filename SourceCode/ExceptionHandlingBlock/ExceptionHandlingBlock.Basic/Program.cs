@@ -5,11 +5,14 @@ namespace ExceptionHandlingBlock.Basic
     using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     class Program
     {
         private static bool ProcessException(ExceptionManager exceptionManager, Action action)
         {
+            var isException = true;
+
             try
             {
                 exceptionManager.Process(() =>
@@ -18,7 +21,7 @@ namespace ExceptionHandlingBlock.Basic
                     Console.WriteLine("此处不该被打印，应为该方法发生了异常");
                 }, "Policy");
 
-                return false;
+                isException = true;
             }
             catch (Exception ex)
             {
@@ -34,13 +37,12 @@ namespace ExceptionHandlingBlock.Basic
                 if (errors.Count > 0)
                 {
                     Console.WriteLine($"执行完成，发生以下错误：{Environment.NewLine}");
-                    errors.ForEach(p => Console.WriteLine($"{p.Item1.ToString().PadLeft(2, '0')}）类型：{p.Item2}；错误：{p.Item3}{Environment.NewLine}"));
+                    errors.ForEach(p => Console.WriteLine($"{p.Item1.ToString().PadLeft(2, '0')}）异常类型:{p.Item2};异常信息:{p.Item3}{Environment.NewLine}"));
                 }
-
-                return true;
             }
-        }
 
+            return isException;
+        }
 
         static void Main(string[] args)
         {
@@ -56,6 +58,8 @@ namespace ExceptionHandlingBlock.Basic
             var isException = false;
 
             isException = ProcessException(exceptionManager, () => int.Parse("A"));
+            isException = ProcessException(exceptionManager, () => File.Open("tmp.txt", FileMode.Open));
+
             Console.WriteLine("主函数执行完成，{0}异常发生，按任意键退出……", isException ? "有" : "无");
             Console.ReadKey();
         }
