@@ -89,7 +89,7 @@ namespace LoggingBlock.Basic
                 if (errors.Count > 0)
                 {
                     Console.WriteLine($"执行完成，发生以下错误：{Environment.NewLine}");
-                    errors.ForEach(p => Console.WriteLine($"{p.Item1.ToString().PadLeft(2, '0')}）类型：{p.Item2}；错误：{p.Item3}{Environment.NewLine}"));
+                    errors.ForEach(p => Console.WriteLine($"{p.Item1.ToString().PadLeft(2, '0')}）异常类型:{p.Item2};异常信息:{p.Item3}{Environment.NewLine}"));
                 }
             }
         }
