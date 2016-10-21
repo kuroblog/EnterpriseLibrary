@@ -78,12 +78,6 @@
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoggingBlock.Common\LoggingBlock.Common.csproj">
-      <Project>{ca8e179e-a06e-4138-b1bf-9ea8d339a8f7}</Project>
-      <Name>LoggingBlock.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>RD /S /Q "$(SolutionDir)$(OutDir)$(TargetName)"
