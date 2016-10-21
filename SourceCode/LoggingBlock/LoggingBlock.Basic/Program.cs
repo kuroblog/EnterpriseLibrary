@@ -82,7 +82,7 @@ namespace LoggingBlock.Basic
                 var index = 0;
                 do
                 {
-                    errors.Add(Tuple.Create(++index, tmp.GetType().Name, tmp.Message.Replace(Environment.NewLine, string.Empty)));
+                    errors.Add(Tuple.Create(++index, ex.GetType().Name, ex.Message.Replace(Environment.NewLine, string.Empty)));
                     ex = tmp.InnerException == null ? null : ex.InnerException;
                 } while (ex != null);
 
