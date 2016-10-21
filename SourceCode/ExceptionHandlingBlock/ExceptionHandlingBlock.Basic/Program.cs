@@ -3,6 +3,7 @@ namespace ExceptionHandlingBlock.Basic
 {
     using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
     using Microsoft.Practices.EnterpriseLibrary.ExceptionHandling;
+    using Microsoft.Practices.EnterpriseLibrary.Logging;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace ExceptionHandlingBlock.Basic
                     Console.WriteLine("此处不该被打印，应为该方法发生了异常");
                 }, "Policy");
 
-                isException = true;
+                isException = false;
             }
             catch (Exception ex)
             {
@@ -45,10 +46,23 @@ namespace ExceptionHandlingBlock.Basic
             return isException;
         }
 
+        /// <summary>
+        /// 演示如何使用企业库的异常组件
+        /// </summary>
+        /// <param name="args"></param>
+        /// <remarks>
+        /// 配置及注意点，参照LoggingBlock.Basic工程
+        /// </remarks>
         static void Main(string[] args)
         {
             #region 初始化企业库组件
             var source = ConfigurationSourceFactory.Create();
+
+            //设置log
+            var logFactory = new LogWriterFactory(source);
+            //如果有db的设置，必须在调用此方法前设置db
+            var logWriter = logFactory.Create();
+            Logger.SetLogWriter(logWriter);
 
             //设置exception
             var exceptionFactory = new ExceptionPolicyFactory(source);
@@ -61,6 +75,7 @@ namespace ExceptionHandlingBlock.Basic
             exceptions.Add(ProcessException(exceptionManager, () => int.Parse("A")));
             exceptions.Add(ProcessException(exceptionManager, () => File.Open("tmp.txt", FileMode.Open)));
             exceptions.Add(ProcessException(exceptionManager, () => new Hashtable()["tmp"].ToString()));
+            exceptions.Add(ProcessException(exceptionManager, () => { var str = new List<string>()[0]; }));
 
             Console.WriteLine("主函数执行完成，{0}异常发生，按任意键退出……", exceptions.Count > 0 ? "有" : "无");
             Console.ReadKey();
